@@ -14,17 +14,28 @@ function RootLayoutNav() {
 
     // Check if the user is on an auth screen
     const isAuthGroup = segments[0] === "(auth)";
-
-    if (!session && !isAuthGroup) {
-      // If no session and not on auth screen, redirect to auth
-      router.replace("/auth");
-    } else if (session && isAuthGroup) {
-      // If has session and on auth screen, redirect to home
+    
+    // Get the current path as a string for easier checking
+    const currentPath = segments.join('/');
+    
+    // Check if the user is trying to access the manage tab (protected)
+    const isManagePath = currentPath.includes('manage');
+    
+    // Redirect unauthenticated users trying to access protected tabs to index
+    if (!session && isManagePath) {
+      router.replace("/" as any);
+      return;
+    }
+    
+    // Redirect authenticated users away from auth screens
+    if (session && isAuthGroup) {
       router.replace("/");
     }
   }, [session, loading, segments]);
 
-  return <Stack />;
+  return (
+    <Stack screenOptions={{ headerShown: false }} />
+  );
 }
 
 export default function RootLayout() {

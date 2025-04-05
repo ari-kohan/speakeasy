@@ -1,26 +1,10 @@
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { useAuth } from "../contexts/AuthContext";
+import { Redirect } from "expo-router";
 
 export default function Index() {
-  const { signOut, session } = useAuth();
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome to SpeakEasy</Text>
-      <Text style={styles.subtitle}>You are logged in!</Text>
-      
-      {session && (
-        <View style={styles.userInfo}>
-          <Text style={styles.emailLabel}>Your email:</Text>
-          <Text style={styles.email}>{session.user.email}</Text>
-        </View>
-      )}
-      
-      <TouchableOpacity style={styles.button} onPress={signOut}>
-        <Text style={styles.buttonText}>Sign Out</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  // Redirect to the tabs index page
+  return <Redirect href="/(tabs)" />;
 }
 
 const styles = StyleSheet.create({
